@@ -1,0 +1,6 @@
+@SeafoodInventoryAPI_HostAddress = http://localhost:5194
+
+GET {{SeafoodInventoryAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
