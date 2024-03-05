@@ -11,20 +11,38 @@ namespace SeafoodInventoryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SpeciesController : ControllerBase
+    public class SpeciesAndCatchesController : ControllerBase
     {
         private readonly SeafoodDbContext _context;
 
-        public SpeciesController(SeafoodDbContext context)
+        public SpeciesAndCatchesController(SeafoodDbContext context)
         {
             _context = context;
         }
 
+
         // GET: api/Species
-        [HttpGet]
+        [HttpGet("Species")]
         public async Task<ActionResult<IEnumerable<Species>>> GetSpecies()
         {
             return await _context.Species.ToListAsync();
+        }
+
+        // GET: api/Catches
+        [HttpGet("Catches")]
+        public async Task<ActionResult<IEnumerable<Catches>>> GetCatches()
+        {
+            return await _context.Catches.ToListAsync();
+        }
+
+        [HttpGet("catches-with-species")]
+        public async Task<ActionResult<IEnumerable<Catches>>> GetCatchesWithSpecies()
+        {
+            var catchesWithSpecies = await _context.Catches
+                .Include(c => c.Species)
+                .ToListAsync();
+
+            return catchesWithSpecies;
         }
 
         // GET: api/Species/5
